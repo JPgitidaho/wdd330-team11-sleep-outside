@@ -1,38 +1,44 @@
-import { getLocalStorage, setLocalStorage } from "./utils.mjs";
+import ProductData from './ProductData.mjs';
 
-export default class ProductDetails {
-  constructor(productId, dataSource) {
-    this.productId = productId;
-    this.dataSource = dataSource;
-    this.product = {};
-  }
-
-  async init() {
-    this.product = await this.dataSource.findProductById(this.productId);
-    this.renderProductDetails();
-    document
-      .getElementById("addToCart")
-      .addEventListener("click", this.addProductToCart.bind(this));
-  }
-
-  addProductToCart() {
-    const cartItems = getLocalStorage("so-cart") || [];
-    cartItems.push(this.product);
-    setLocalStorage("so-cart", cartItems);
-  }
-
-  renderProductDetails() {
-    const container = document.querySelector(".product-detail");
-    container.innerHTML = `
-      <h3>${this.product.Brand?.Name || ""}</h3>
-      <h2 class="divider">${this.product.NameWithoutBrand}</h2>
-      <img src="${this.product.Image}" alt="${this.product.Name}">
-      <p class="product-card__price">$${this.product.FinalPrice}</p>
-      <p class="product__color">${this.product.Colors[0].ColorName}</p>
-      <p class="product__description">${this.product.DescriptionHtmlSimple}</p>
-      <div class="product-detail__add">
-        <button id="addToCart" data-id="${this.product.Id}">Add to Cart</button>
-      </div>
-    `;
-  }
+function getIdFromUrl() {
+  return new URLSearchParams(window.location.search).get('id');
 }
+
+function renderProduct(product) {
+  const template = document.querySelector('template.product-detail');
+  const container = document.querySelector('main.divider');
+  
+  if (!product) return container.innerHTML = '<p>Product not found.</p>';
+  const clone = template.content.cloneNode(true);
+  const [h3, h2, img, p1, p2, p3] = clone.querySelectorAll('h3, h2, img, p, p, p');
+  if (h3) h3.textContent = product?.Brand?.Name ?? '';
+  if (h2) h2.textContent = product.Name ?? product.Title ?? '';
+  if (img) { img.src = product.Image ?? product.image ?? ''; img.alt = product.Name ?? ''; }
+  if (p1) p1.textContent = product.Description ?? '';
+  if (p2) p2.textContent = product.SuggestedRetailPrice ?? product.price ?? '';
+  if (p3) p3.textContent = product.FinalPrice ?? '';
+
+  // Button
+  const addToCartBtn = clone.querySelector('#addToCart');
+  if (addToCartBtn) {
+    addToCartBtn.dataset.id = product.Id ?? product.id ?? '';
+    addToCartBtn.addEventListener('click', () => {
+      let cart = JSON.parse(localStorage.getItem('so-cart')) || [];
+      cart.push(product);
+      localStorage.setItem('so-cart', JSON.stringify(cart));
+      alert('Product added to cart');
+    });
+  }
+
+  container.innerHTML = '';
+  container.appendChild(clone);
+}
+
+(async function () {
+  const data = await new ProductData('tents').getData();
+  const id = getIdFromUrl();
+  let product = null;
+  if (Array.isArray(data)) product = data.find(item => String(item.Id ?? item.id) === String(id));
+  else if (data && typeof data === 'object') product = data[String(id)] ?? null;
+  renderProduct(product);
+})();
