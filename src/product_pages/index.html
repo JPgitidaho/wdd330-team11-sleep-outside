@@ -6,7 +6,6 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Sleep Outside | Product Details</title>
     <link rel="stylesheet" href="../css/style.css" />
-    <script src="../js/product.js" type="module"></script>
 </head>
 
 <body>
@@ -26,10 +25,22 @@
     </header>
 
     <main class="divider">
-        <section class="product-detail"></section>
+        <template class="product-detail">
+            <section class="product-detail">
+                <h3></h3>
+                <h2></h2>
+                <img src="" alt="">
+                <p class="description"></p>
+                <p class="price"></p>
+                <p class="final-price"></p>
+                <button id="addToCart">Add to Cart</button>
+            </section>
+        </template>
     </main>
 
     <footer>&copy;2025 Sleep Outside</footer>
+
+    <script type="module" src="../js/productDetailsMain.js"></script>
 </body>
 
 </html>
