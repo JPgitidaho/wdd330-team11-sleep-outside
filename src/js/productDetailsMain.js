@@ -1,6 +1,7 @@
 import { getParam } from "./utils.mjs";
 import ProductData from "./ProductData.mjs";
 import ProductDetails from "./ProductDetails.mjs";
+import { loadHeaderFooter } from "./utils.mjs";
 
 const productId = getParam("product");
 
@@ -10,3 +11,5 @@ const element = document.querySelector("main.divider");
 
 const product = new ProductDetails(productId, dataSource, element);
 product.init();
+
+loadHeaderFooter();

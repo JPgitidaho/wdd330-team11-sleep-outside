@@ -1,4 +1,5 @@
 import { setLocalStorage } from "./utils.mjs";
+import { loadHeaderFooter } from "./utils.mjs";
 
 export default class ProductDetails {
   constructor(productId, dataSource, element) {
@@ -53,3 +54,4 @@ export default class ProductDetails {
     alert("Product added to cart!");
   }
 }
+loadHeaderFooter();
