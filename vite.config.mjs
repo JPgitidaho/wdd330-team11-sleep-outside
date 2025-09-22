@@ -18,8 +18,10 @@ export default defineConfig({
   plugins: [
     viteStaticCopy({
       targets: [
-        { src: "css/style.css", dest: "css" },
-        { src: "partials/*.html", dest: "partials" },
+        {
+          src: "src/public/partials/*.html",
+          dest: "partials",
+        },
       ],
     }),
   ],
