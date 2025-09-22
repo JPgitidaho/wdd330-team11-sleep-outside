@@ -34,12 +34,12 @@ export default class ProductDetails {
     if (h3) h3.textContent = product.Brand?.Name ?? "";
     if (h2) h2.textContent = product.Name ?? product.Title ?? "";
     if (img) {
-      img.src = product.Image ?? product.image ?? "";
+      img.src =
+        product.Images?.PrimaryLarge ?? product.Images?.PrimaryMedium ?? "";
       img.alt = product.Name ?? "";
     }
     if (description) description.textContent = product.Description ?? "";
-    if (price)
-      price.textContent = product.SuggestedRetailPrice ?? product.price ?? "";
+    if (price) price.textContent = product.SuggestedRetailPrice ?? "";
     if (finalPrice) finalPrice.textContent = product.FinalPrice ?? "";
 
     this.element.innerHTML = "";
