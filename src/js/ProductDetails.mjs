@@ -3,7 +3,6 @@ import { setLocalStorage, getLocalStorage } from "./utils.mjs";
 function cleanHtml(html) {
   const parser = new DOMParser();
   const doc = parser.parseFromString(html, "text/html");
-  // Elimina todos los enlaces y atributos raros
   doc.querySelectorAll("a").forEach((el) => {
     const text = el.textContent;
     el.replaceWith(text);
@@ -21,10 +20,7 @@ export default class ProductDetails {
   }
 
   async init() {
-    this.product = await this.dataSource.findProductById(
-      this.productId,
-      this.category,
-    );
+    this.product = await this.dataSource.findProductById(this.productId);
     if (this.product) {
       this.renderProductDetails(this.product);
       document

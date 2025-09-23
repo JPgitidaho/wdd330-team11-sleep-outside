@@ -1,11 +1,16 @@
 import { getLocalStorage, setLocalStorage } from "./utils.mjs";
 
 function productCardTemplate(product, category) {
+  const imageUrl =
+    product.Images?.PrimaryMedium ?? product.Images?.PrimarySmall ?? "";
+
   return `
   <li class="product-card">
-    <a href="/product_pages/index.html?product=${encodeURIComponent(product.Id)}&category=${encodeURIComponent(category)}">
-      <img src="${product.Images.PrimaryMedium}" alt="${product.Name}" />
-      <h3 class="card__brand">${product.Brand.Name}</h3>
+    <a href="/product_pages/index.html?product=${encodeURIComponent(
+      product.Id,
+    )}&category=${encodeURIComponent(category)}">
+      <img src="${imageUrl}" alt="${product.Name}" />
+      <h3 class="card__brand">${product.Brand?.Name ?? ""}</h3>
       <h2 class="card__name">${product.Name}</h2>
       <p class="product-card__price">$${product.FinalPrice}</p>
     </a>
