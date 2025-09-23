@@ -1,23 +1,27 @@
-function convertToJson(res) {
-  if (res.ok) {
-    return res.json();
-  } else {
-    throw new Error("Bad Response");
+const baseURL =
+  import.meta.env.VITE_SERVER_URL || "https://wdd330-backend.onrender.com/";
+
+async function convertToJson(res) {
+  if (!res.ok) {
+    throw new Error(`Bad Response: ${res.status}`);
   }
+  return await res.json();
 }
 
 export default class ProductData {
-  constructor(category) {
-    this.category = category;
-    this.path = `../json/${this.category}.json`;
+  async getData(category) {
+    const url = `${baseURL.replace(/\/$/, "")}/products/search/${category}`;
+    const response = await fetch(url);
+    const data = await convertToJson(response);
+    return data.Result;
   }
-  getData() {
-    return fetch(this.path)
-      .then(convertToJson)
-      .then((data) => data);
-  }
-  async findProductById(id) {
-    const products = await this.getData();
-    return products.find((item) => item.Id === id);
+
+  async findProductById(id, category = "tents") {
+    const products = await this.getData(category);
+    return products.find(
+      (item) =>
+        String(item.Id).trim().toLowerCase() ===
+        String(id).trim().toLowerCase(),
+    );
   }
 }
