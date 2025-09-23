@@ -304,3 +304,25 @@ footer {
     grid-template-columns: repeat(4, 1fr);
   }
 }
+
+.remove-item {
+  background: #c0392b;
+  color: white;
+  border: none;
+  padding: 0.2em 0.6em;
+  font-size: 1rem;
+  border-radius: 4px;
+  cursor: pointer;
+  margin-left: 0.5rem;
+  transition: background 0.3s ease;
+}
+
+.remove-item:hover {
+  background: #a93226;
+}
+
+.cart-total {
+  font-weight: bold;
+  margin-top: 1rem;
+  text-align: right;
+}
