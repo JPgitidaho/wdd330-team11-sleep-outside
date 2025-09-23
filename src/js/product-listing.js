@@ -12,4 +12,8 @@ const myList = new ProductList(category, dataSource, listElement);
 myList.init();
 
 const categoryTitle = document.getElementById("category-title");
-if (categoryTitle) categoryTitle.textContent = `Top Products: ${category}`;
+if (categoryTitle && category) {
+  const formatted =
+    category.charAt(0).toUpperCase() + category.slice(1).replace("-", " ");
+  categoryTitle.textContent = `Top Products: ${formatted}`;
+}

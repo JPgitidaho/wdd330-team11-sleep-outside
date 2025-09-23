@@ -16,12 +16,10 @@ export default class ProductData {
     return data.Result;
   }
 
-  async findProductById(id, category = "tents") {
-    const products = await this.getData(category);
-    return products.find(
-      (item) =>
-        String(item.Id).trim().toLowerCase() ===
-        String(id).trim().toLowerCase(),
-    );
+  async findProductById(id) {
+    const url = `${baseURL.replace(/\/$/, "")}/product/${id}`;
+    const response = await fetch(url);
+    const data = await convertToJson(response);
+    return data;
   }
 }
