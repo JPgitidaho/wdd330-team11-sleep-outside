@@ -20,6 +20,26 @@ export default class ProductData {
     const url = `${baseURL.replace(/\/$/, "")}/product/${id}`;
     const response = await fetch(url);
     const data = await convertToJson(response);
-    return data;
+    const product = data.Result ?? data;
+
+    product.FinalPrice =
+      product.FinalPrice ??
+      product.final_price ??
+      product.list_price ??
+      product.suggested_retail_price ??
+      0;
+    product.ListPrice =
+      product.ListPrice ??
+      product.list_price ??
+      product.suggested_retail_price ??
+      product.FinalPrice ??
+      0;
+    product.SuggestedRetailPrice =
+      product.SuggestedRetailPrice ??
+      product.suggested_retail_price ??
+      product.ListPrice ??
+      0;
+
+    return product;
   }
 }

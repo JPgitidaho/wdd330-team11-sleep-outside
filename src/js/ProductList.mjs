@@ -3,6 +3,11 @@ import { getLocalStorage, setLocalStorage } from "./utils.mjs";
 function productCardTemplate(product, category) {
   const imageUrl =
     product.Images?.PrimaryMedium ?? product.Images?.PrimarySmall ?? "";
+  const price =
+    product.FinalPrice ??
+    product.ListPrice ??
+    product.SuggestedRetailPrice ??
+    0;
 
   return `
   <li class="product-card">
@@ -12,9 +17,9 @@ function productCardTemplate(product, category) {
       <img src="${imageUrl}" alt="${product.Name}" />
       <h3 class="card__brand">${product.Brand?.Name ?? ""}</h3>
       <h2 class="card__name">${product.Name}</h2>
-      <p class="product-card__price">$${product.FinalPrice}</p>
+      <p class="product-card__price">$${price}</p>
     </a>
-    <button class="add-to-cart" data-id="${product.Id}">Add to Cart</button>
+    <button class="add-to-cart" data-id="${product.Id}">Quick view</button>
   </li>`;
 }
 
