@@ -4,18 +4,71 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Sleep Outside | Checkout</title>
-  <link rel="stylesheet" href="/css/style.css" />
+  <title>Checkout | Sleep Outside</title>
+  <link rel="stylesheet" href="../css/style.css" />
 </head>
 
 <body>
   <header id="main-header" class="divider"></header>
-  <main class="divider">
-    <section class="products">
-      <h2>Review & Place your Order</h2>
-      <p>Checkout form will go here.</p>
+
+  <main class="checkout-container divider">
+    <aside class="summary-box">
+      <h2>Summary</h2>
+      <p id="summary-subtotal">Subtotal: $0.00</p>
+      <p id="summary-shipping">Shipping Estimate: $0.00</p>
+      <p id="summary-tax">Tax: $0.00</p>
+      <p id="summary-total"><strong>Order Total: $0.00</strong></p>
+    </aside>
+
+    <section>
+      <h1>Review & Place your Order</h1>
+      <form id="form-checkout" class="checkout-form">
+        <fieldset>
+          <legend>Customer Name</legend>
+          <label for="firstName">First Name
+            <input type="text" id="firstName" name="firstName" required>
+          </label>
+          <label for="lastName">Last Name
+            <input type="text" id="lastName" name="lastName" required>
+          </label>
+        </fieldset>
+
+        <fieldset>
+          <legend>Address</legend>
+          <label for="street">Street Address
+            <input type="text" id="street" name="street" required>
+          </label>
+          <label for="city">City
+            <input type="text" id="city" name="city" required>
+          </label>
+          <label for="state">State
+            <input type="text" id="state" name="state" required>
+          </label>
+          <label for="zip">Zip Code
+            <input type="text" id="zip" name="zip" required>
+          </label>
+        </fieldset>
+
+        <fieldset>
+          <legend>Payment</legend>
+          <label for="ccnum">Credit Card Number
+            <input type="text" id="ccnum" name="ccnum" required>
+          </label>
+          <label for="exp">Expiration Date
+            <input type="text" id="exp" name="exp" placeholder="MM/YY" required>
+          </label>
+          <label for="cvv">Security Code
+            <input type="text" id="cvv" name="cvv" required>
+          </label>
+        </fieldset>
+
+        <div class="checkout-actions">
+          <button type="submit" class="pay-btn">Pay</button>
+        </div>
+      </form>
     </section>
   </main>
+
   <footer id="main-footer"></footer>
   <script type="module" src="../js/checkout.js"></script>
 </body>

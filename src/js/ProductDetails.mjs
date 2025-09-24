@@ -46,9 +46,9 @@ export default class ProductDetails {
     clone.querySelector(".description").innerHTML = cleanHtml(rawDescription);
 
     clone.querySelector(".price").textContent =
-      `Regular: $${product.SuggestedRetailPrice ?? product.ListPrice ?? ""}`;
+      `Regular: $${product.SuggestedRetailPrice ?? product.ListPrice ?? "0.00"}`;
     clone.querySelector(".final-price").textContent =
-      `Now: $${product.FinalPrice}`;
+      `Now: $${product.FinalPrice ?? product.ListPrice ?? product.SuggestedRetailPrice ?? "0.00"}`;
 
     this.element.innerHTML = "";
     this.element.appendChild(clone);

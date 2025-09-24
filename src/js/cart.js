@@ -8,7 +8,7 @@ loadHeaderFooter();
 
 function renderCartContents() {
   const cartItems = getLocalStorage("so-cart") || [];
-  const listElement = document.querySelector(".product-list");
+  const listElement = document.querySelector(".cart-list");
 
   if (cartItems.length === 0) {
     listElement.innerHTML = "<li>Your cart is empty</li>";
@@ -21,10 +21,19 @@ function renderCartContents() {
   listElement.innerHTML = htmlItems.join("");
 
   const total = cartItems.reduce(
-    (sum, item) => sum + Number(item.FinalPrice) * (item.quantity || 1),
+    (sum, item) =>
+      sum +
+      Number(
+        item.FinalPrice ?? item.ListPrice ?? item.SuggestedRetailPrice ?? 0,
+      ) *
+        (item.quantity || 1),
     0,
   );
-  listElement.innerHTML += `<li class="cart-total">Total: $${total.toFixed(2)}</li>`;
+
+  const totalElement = document.getElementById("cart-total");
+  if (totalElement) {
+    totalElement.textContent = `Subtotal (${cartItems.length} items): $${total.toFixed(2)}`;
+  }
 
   document.querySelectorAll(".remove-item").forEach((btn) => {
     btn.addEventListener("click", (e) => {
@@ -37,18 +46,21 @@ function renderCartContents() {
 function cartItemTemplate(item, index) {
   const imageUrl =
     item.Images?.PrimarySmall ?? item.Images?.PrimaryMedium ?? "";
+  const price =
+    item.FinalPrice ?? item.ListPrice ?? item.SuggestedRetailPrice ?? 0;
   return `
     <li class="cart-card divider">
-      <a href="/product_pages/index.html?product=${item.Id}&category=${item.Category}">
-        <img src="${imageUrl}" alt="${item.Name}" class="cart-card__image" />
-      </a>
-      <h2 class="card__name">
-        <a href="/product_pages/index.html?product=${item.Id}&category=${item.Category}">${item.Name}</a>
-      </h2>
-      <p class="cart-card__quantity">Qty: ${item.quantity || 1}</p>
-      <p class="cart-card__price">Price: $${item.FinalPrice}</p>
-      <p class="cart-card__subtotal">Subtotal: $${(Number(item.FinalPrice) * (item.quantity || 1)).toFixed(2)}</p>
-      <button class="remove-item" data-index="${index}">❌</button>
+      <img src="${imageUrl}" alt="${item.Name}" class="cart-card__image" />
+      <div class="cart-card__info">
+        <h2 class="card__name">${item.Name}</h2>
+        <p>Qty: ${item.quantity || 1}</p>
+      </div>
+      <div class="cart-card__actions">
+        <p class="cart-card__price">
+          $${Number(price).toFixed(2)}
+          <button class="remove-item" data-index="${index}">X</button>
+        </p>
+      </div>
     </li>`;
 }
 
